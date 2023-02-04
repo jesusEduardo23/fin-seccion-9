@@ -1,4 +1,4 @@
-const {response} = require('express');
+const {response, request} = require('express');
 const Usuario = require('../models/usuario');
 const bcryptjs = require('bcryptjs');
 
@@ -64,14 +64,21 @@ const usuarioGet = async(req, res=response)=> {
   const usuarioDelete=async(req, res=response)=> {
 
     const{id}=req.params;
+    
 
     //eliminar usuario fisicamente
     // const usuario =await Usuario.findByIdAndDelete(id);
-    //cambiamos el estado del usuario 
+    //cambiamos el estado del usuario
+    
     const usuario = await Usuario.findByIdAndUpdate(id,{estado:false})
+    
+    const usuarioAutenticado = req.usuario;
+    
+    
 
     res.json({
-    usuario
+    usuario,
+    usuarioAutenticado
 
     })
   }
