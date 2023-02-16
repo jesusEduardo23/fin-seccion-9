@@ -1,8 +1,8 @@
 const {Router} = require('express');
 const { check } = require('express-validator');
-const{login} = require('../controllers/auth');
+const{login, googleSincIn} = require('../controllers/auth');
 const { validarCampos } = require('../middlewares/validarCampos');
-const { validarJWT } = require('../middlewares/validarJWT');
+// const { validarJWT } = require('../middlewares/validarJWT');
 
 
 
@@ -16,7 +16,12 @@ routes.post('/login',[
     validarCampos
 ], login);
 
-
+// routes.post('/google',[
+//     // validarJWT,
+//     check('id_token','id_google es obligatorio').not().isEmpty(),
+//     // check('password','la contraseña es invalida').not().isEmpty(),
+//     validarCampos
+// ], googleSincIn);
 
 
 module.exports=routes;

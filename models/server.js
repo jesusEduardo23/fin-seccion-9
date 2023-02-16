@@ -11,8 +11,16 @@ class Server {
     constructor(){
         this.app = express(); 
         this.port =  process.env.PORT;
-        this.userPath='/api/usuarios';
-        this.authPath='/api/auth';
+
+        this.Path={
+            userPath:'/api/usuarios',
+            authPath:'/api/auth',
+            buscarPath:'/api/buscar',
+            categoriaPath:'/api/categorias',
+            productoPath:'/api/productos'
+
+        }
+        
          
         //conexion a la base de datos
           this.conectarDB();
@@ -34,13 +42,18 @@ class Server {
      middlewares(){
           //cors
           this.app.use(cors());
+        //   this.app.use(express.json());
+          
           //Directorio público      
           this.app.use(express.static('public'));
      }
     
     routes(){
-      this.app.use(this.userPath,require('../routes/users'));
-      this.app.use(this.authPath,require('../routes/auth'));
+      this.app.use(this.Path.userPath,require('../routes/users'));
+      this.app.use(this.Path.authPath,require('../routes/auth'));
+      this.app.use(this.Path.buscarPath,require('../routes/buscar'));
+      this.app.use(this.Path.categoriaPath,require('../routes/categorias'));
+      this.app.use(this.Path.productoPath,require('../routes/producto'));
     }
 
     listen(){
