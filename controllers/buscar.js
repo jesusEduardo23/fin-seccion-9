@@ -10,19 +10,6 @@ const coleccionPermitida=[
     'roles'
 ];
 
-const buscar=async(req,res=response)=>{
-
-const{coleccion,termino}=req.params;
-
-
-if(!coleccionPermitida.includes(coleccion)){
-  
-    return res.status(400).json({
-        msg:`las colecciones permitidas son ${coleccionPermitida}`
-    });
-
-}
-
 
 const buscarUsuario=async(termino='',res=response)=>{
          
@@ -97,8 +84,6 @@ const buscarCategoria=async(termino='',res=response)=>{
     }
      
 
-
-  
      //buscar usuario por otros argumentos
      //expresion regular para buscar mayuscula o minusculas
      const regex= new RegExp(termino,'i');
@@ -107,7 +92,9 @@ const buscarCategoria=async(termino='',res=response)=>{
      const productos = await Producto.find({ //busqueda propia de mongodb //count tambien para contar
        $or:[{nombre:regex}],//nombre es como aparece en el modelo
        $and:[{estado:true}]
-      }).populate('categoria','nombre');
+      }) .populate('categoria','nombre');
+
+      
   
      res.json({
       result: productos
@@ -115,27 +102,68 @@ const buscarCategoria=async(termino='',res=response)=>{
   });
   
   }
- 
 
+
+
+//buscar todos los productos por determinada categoria
+
+// const buscarProducto=async(termino='',res=response)=>{
+
+    
+//          //buscar usuario por otros argumentos
+//          //expresion regular para buscar mayuscula o minusculas
+//          const regex= new RegExp(termino,'i');
+         
+         
+//          const productos = await Producto.find({ //busqueda propia de mongodb //count tambien para contar
+//            categoria:ObjectId(termino)
+//           }) .populate('categoria','nombre');
+    
+          
+      
+//          res.json({
+//           result: productos
+      
+//       });
+      
+//       }
+   
+
+ 
+  const buscar=async(req,res=response)=>{
+
+    const{coleccion,termino}=req.params;
+    
+    
+    if(!coleccionPermitida.includes(coleccion)){
+      
+        return res.status(400).json({
+            msg:`las colecciones permitidas son ${coleccionPermitida}`
+        });
+    
+    }
+    
+    
+    
   
 
 //opciones
-switch (coleccion) {
+switch(coleccion) {
     case 'usuarios':
-        buscarUsuario(termino,res)
+        buscarUsuario(termino,res);
         break;
 
     case 'categorias':
-        buscarCategoria(termino,res)
+        buscarCategoria(termino,res);
         break;
     case 'productos':
-          buscarProducto(termino,res)
+          buscarProducto(termino,res);
           
         break;
 
 
     default:
-         res.status(500).json({
+           res.status(500).json({
             msg:'se me olvido hacer esta coleccion'
          });
         break;
@@ -143,7 +171,7 @@ switch (coleccion) {
 
 
 
-}
+  }
 
 
 

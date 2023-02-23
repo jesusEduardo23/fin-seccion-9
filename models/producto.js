@@ -37,6 +37,10 @@ const productoSchema = Schema({
                type:String,
 
     },
+    img:{
+        type:String,
+
+     },
     disponible:{
                type:Boolean,
                default:true
